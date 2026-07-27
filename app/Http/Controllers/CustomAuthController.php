@@ -39,6 +39,7 @@ class CustomAuthController extends Controller
             // Redirection stricte selon le rôle de l'utilisateur
             return match($user->role) {
                 'directeur'  => redirect()->route('directeur.dashboard'),
+                'proviseur'  => redirect()->route('proviseur.dashboard'),
                 'enseignant' => redirect()->route('enseignant.dashboard'),
                 'comptable'  => redirect()->route('comptable.dashboard'),
                 'eleve'      => redirect()->route('eleve.dashboard'),
@@ -65,7 +66,48 @@ class CustomAuthController extends Controller
     }
 
     /**
-     * Afficher le formulaire de création de compte pour le personnel (Espace Directeur)
+     * Afficher la liste des utilisateurs de l'établissement (Espace Directeur)
+     */
+    public function indexUsers()
+    {
+        $ecoleId = session('ecole_id');
+
+        // Récupérer uniquement les utilisateurs rattachés à l'école du directeur
+        $users = User::where('ecole_id', $ecoleId)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+
+        return view('directeur.users.index', compact('users'));
+    }
+
+    /**
+     * Traiter la création d'un compte utilisateur par le Directeur
+     */
+    public function storeUserByDirector(Request $request)
+    {
+        $request->validate([
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6'],
+            'role'     => ['required', 'string', 'in:proviseur,enseignant,comptable,eleve'],
+        ]);
+
+        $ecoleId = session('ecole_id');
+
+        User::create([
+            'ecole_id' => $ecoleId,
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => $request->role,
+        ]);
+
+        return redirect()->route('directeur.users.index')
+                         ->with('success', 'Le compte utilisateur a été créé avec succès !');
+    }
+
+    /**
+     * Afficher le formulaire de création de compte pour le personnel
      */
     public function showRegister()
     {
@@ -73,15 +115,15 @@ class CustomAuthController extends Controller
     }
 
     /**
-     * Traiter la création d'un compte personnel (Enseignants, Comptables, Élèves)
+     * Traiter la création d'un compte personnel (Proviseurs, Enseignants, Comptables, Élèves)
      */
     public function register(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'role' => ['required', 'string', 'in:enseignant,comptable,eleve'],
+            'role'     => ['required', 'string', 'in:proviseur,enseignant,comptable,eleve'],
         ]);
 
         // On récupère l'ID de l'école du directeur connecté depuis sa session
@@ -89,10 +131,10 @@ class CustomAuthController extends Controller
 
         User::create([
             'ecole_id' => $ecoleId,
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role'     => $request->role,
         ]);
 
         return redirect()->route('directeur.dashboard')->with('success', 'Le compte a été créé avec succès !');
@@ -113,31 +155,31 @@ class CustomAuthController extends Controller
     {
         $request->validate([
             // Validation de l'école
-            'nom_ecole' => ['required', 'string', 'max:255'],
-            'code_national_epst' => ['required', 'string', 'unique:ecoles'],
+            'nom_ecole'               => ['required', 'string', 'max:255'],
+            'code_national_epst'     => ['required', 'string', 'unique:ecoles'],
             'province_educationnelle' => ['required', 'string'],
-            'adresse' => ['required', 'string'],
+            'adresse'                 => ['required', 'string'],
             // Validation du directeur
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'name'                    => ['required', 'string', 'max:255'],
+            'email'                   => ['required', 'string', 'email', 'unique:users'],
+            'password'                => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
         // 1. Création de l'école en base de données
         $ecole = Ecole::create([
-            'nom_ecole' => $request->nom_ecole,
-            'code_national_epst' => $request->code_national_epst,
+            'nom_ecole'               => $request->nom_ecole,
+            'code_national_epst'     => $request->code_national_epst,
             'province_educationnelle' => $request->province_educationnelle,
-            'adresse' => $request->adresse,
+            'adresse'                 => $request->adresse,
         ]);
 
         // 2. Création explicite du compte Directeur lié à cette école
         $user = new User();
         $user->ecole_id = $ecole->id;
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->name     = $request->name;
+        $user->email    = $request->email;
         $user->password = Hash::make($request->password);
-        $user->role = 'directeur'; // Rôle forcé pour éviter l'écrasement par défaut
+        $user->role     = 'directeur'; // Rôle forcé pour éviter l'écrasement par défaut
         $user->save();
 
         // Nettoyer les anciennes redirections stockées en session par le framework

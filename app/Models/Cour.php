@@ -6,21 +6,21 @@ use App\Traits\BelongsToSchool;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Option extends Model
+class Cour extends Model
 {
     use HasFactory, BelongsToSchool;
 
-    protected $table = 'options';
-    protected $primaryKey = 'idOption';
+    protected $table = 'cours';
 
     protected $fillable = [
         'ecole_id',
-        'nomoption',
-        'sigle',
+        'nom_cours',
+        'code_cours',
     ];
 
-    public function classes()
+    public function plans()
     {
-        return $this->hasMany(Classe::class, 'option_id', 'idOption');
+        return $this->hasMany(Plan::class, 'cours_id');
     }
 }
+

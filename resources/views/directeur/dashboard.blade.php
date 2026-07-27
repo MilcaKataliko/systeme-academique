@@ -95,6 +95,19 @@
                     Consulter le registre <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i>
                 </a>
             </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Carte Option -->
+            <div class="bg-slate-950 border border-slate-800 p-6 rounded-2xl hover:border-blue-500/40 transition duration-200 shadow-lg flex flex-col justify-between">
+                <div>
+                    <div class="bg-blue-500/10 border border-blue-500/20 w-12 h-12 rounded-xl flex items-center justify-center text-blue-400 text-xl mb-4">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-white">Gerer les utilisateurs</h3>
+                </div>
+                    <a href="{{ url('/proviseur/eleves') }}" class="...">                        <i class="fa-solid fa-users mr-2"></i> Gérer le personnel & utilisateurs
+                    </a>
+            </div>
 
         </div>
 
