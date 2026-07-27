@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToSchool;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Annee extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToSchool;
 
-    protected $primaryKey = 'idAnnee'; // Ta clé primaire personnalisée
-    protected $fillable = ['anneescolaire'];
+    protected $table = 'annees';
+    protected $primaryKey = 'idAnnee';
+
+    protected $fillable = ['ecole_id', 'anneescolaire'];
+
+    public $timestamps = true;
 }
+

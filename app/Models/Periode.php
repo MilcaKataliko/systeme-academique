@@ -6,21 +6,23 @@ use App\Traits\BelongsToSchool;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Option extends Model
+class Periode extends Model
 {
     use HasFactory, BelongsToSchool;
 
-    protected $table = 'options';
-    protected $primaryKey = 'idOption';
-
     protected $fillable = [
         'ecole_id',
-        'nomoption',
-        'sigle',
+        'nom_periode',
+        'est_cloturee',
     ];
 
-    public function classes()
+    protected $casts = [
+        'est_cloturee' => 'boolean',
+    ];
+
+    public function cotes()
     {
-        return $this->hasMany(Classe::class, 'option_id', 'idOption');
+        return $this->hasMany(Cote::class, 'periode_id');
     }
 }
+
