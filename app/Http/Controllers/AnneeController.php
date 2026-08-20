@@ -29,6 +29,7 @@ class AnneeController extends Controller
 
         Annee::create([
             'anneescolaire' => $request->anneescolaire,
+            'ecole_id' => session('ecole_id'),
         ]);
 
         return redirect()->route('annees.index')->with('success', 'Année scolaire ajoutée avec succès !');

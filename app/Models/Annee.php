@@ -10,5 +10,5 @@ class Annee extends Model
     use HasFactory;
 
     protected $primaryKey = 'idAnnee'; // Ta clé primaire personnalisée
-    protected $fillable = ['anneescolaire'];
+    protected $fillable = ['anneescolaire', 'ecole_id'];
 }
