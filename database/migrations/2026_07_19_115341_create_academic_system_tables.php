@@ -35,6 +35,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('classes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('option_id')->nullable()->constrained('options', 'idOption')->onDelete('set null');
+            $table->string('nom_classe'); // ex: 1ère Commerciale, 2ème Chimie-Bio
+            $table->integer('niveau'); // 1 à 6 (année d'étude)
+            $table->string('section')->nullable(); // ex: Scientifique, Littéraire, Technique
+            $table->timestamps();
+        });
+
         // 3. Table : Cours
         Schema::create('cours', function (Blueprint $table) {
             $table->id();
@@ -126,6 +135,7 @@ return new class extends Migration
         Schema::dropIfExists('frais_classe');
         Schema::dropIfExists('frais');
         Schema::dropIfExists('inscriptions');
+        Schema::dropIfExists('classes');
         Schema::dropIfExists('cours');
         Schema::dropIfExists('periodes');
         Schema::dropIfExists('eleves');

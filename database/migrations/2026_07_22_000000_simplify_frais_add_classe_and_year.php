@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 2. Copier les données existantes avec montant_standard comme montant
+        // 2. Copier les données existantes
         $frais = DB::table('frais')->get();
         foreach ($frais as $f) {
             DB::table('frais_temp')->insert([
@@ -41,11 +41,10 @@ return new class extends Migration
             ]);
         }
 
-        // 3. Copier les données de frais_classe si la table existe
+        // 3. Copier les données de frais_classe
         if (Schema::hasTable('frais_classe')) {
             $fraisClasses = DB::table('frais_classe')->get();
             foreach ($fraisClasses as $fc) {
-                // Mettre à jour les lignes existantes dans frais_temp
                 DB::table('frais_temp')
                     ->where('id', $fc->frais_id)
                     ->update([
@@ -56,12 +55,16 @@ return new class extends Migration
             }
         }
 
-        // 4. Supprimer l'ancienne table et renommer la nouvelle
+        // 4. Désactiver les clés étrangères pour pouvoir supprimer les tables sans erreur
+        Schema::disableForeignKeyConstraints();
+
+        Schema::dropIfExists('frais_classe'); // Supprimer la table pivot devenue inutile
         Schema::dropIfExists('frais');
         Schema::rename('frais_temp', 'frais');
 
-        // 5. Recréer les clés étrangères pour paiements (frais_id)
-        // Supprimer d'abord l'ancienne, puis recréer
+        Schema::enableForeignKeyConstraints();
+
+        // 5. Recréer les clés étrangères si nécessaire
         Schema::table('paiements', function (Blueprint $table) {
             $table->dropForeign(['frais_id']);
             $table->foreign('frais_id')->references('id')->on('frais')->onDelete('cascade');

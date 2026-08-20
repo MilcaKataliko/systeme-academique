@@ -11,6 +11,14 @@ use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CoursController;
 use App\Http\Controllers\ComptableController;
 
+Route::get('/ping', function () {
+    try {
+        DB::select('SELECT 1');
+        return response()->json(['status' => 'ok', 'timestamp' => now()], 200);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
 // --- ROUTES PUBLIQUES (Accessibles sans être connecté) ---
 Route::get('/', [CustomAuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [CustomAuthController::class, 'login']);
