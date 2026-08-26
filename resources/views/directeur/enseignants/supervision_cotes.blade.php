@@ -49,7 +49,11 @@
 
         <!-- Filtres -->
         <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
-            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Recherche</label>
+                    <input type="search" name="q" value="{{ request('q') }}" placeholder="Élève, matricule ou cours" class="bg-slate-900/60 border border-slate-700 text-slate-100 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-amber-500 w-full">
+                </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Enseignant</label>
                     <select name="enseignant_id" class="bg-slate-900/60 border border-slate-700 text-slate-100 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-amber-500 w-full">
@@ -84,9 +88,14 @@
                     </select>
                 </div>
                 <div>
-                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-2.5 rounded-xl text-sm font-bold transition cursor-pointer">
-                        <i class="fa-solid fa-filter mr-2"></i> Filtrer
-                    </button>
+                    <div class="flex gap-2">
+                        <button type="submit" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white py-2.5 rounded-xl text-sm font-bold transition cursor-pointer">
+                            <i class="fa-solid fa-filter mr-2"></i> Filtrer
+                        </button>
+                        <a href="{{ route('directeur.enseignants.supervision') }}" class="px-4 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 transition" title="Réinitialiser les filtres" aria-label="Réinitialiser les filtres">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
@@ -98,7 +107,7 @@
                     <div>
                         <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Cotes encodées</p>
                         <p class="text-2xl font-black text-white mt-1">{{ number_format($stats->total_cotes, 0) }}</p>
-                        <p class="text-[11px] text-slate-500 mt-1">{{ $stats->eleves_concernes }} élève(s) concerné(s)</p>
+                            <p class="text-[11px] text-slate-500 mt-1">{{ $stats->eleves_concernes }} élève(s), {{ $stats->notes_saisies }} avec note</p>
                     </div>
                     <div class="bg-blue-500/10 p-3 rounded-xl text-blue-400">
                         <i class="fa-solid fa-pen-to-square text-xl"></i>
@@ -187,11 +196,11 @@
                             @endphp
                             <tr class="border-b border-slate-800/50 hover:bg-slate-900/30 transition duration-100">
                                 <td class="py-3.5 px-4 text-white font-medium">
-                                    {{ $cote->inscription->eleve->nom }} {{ $cote->inscription->eleve->postnom }}
+                                    {{ $cote->inscription?->eleve?->nom ?? 'Élève supprimé' }} {{ $cote->inscription?->eleve?->postnom ?? '' }}
                                 </td>
-                                <td class="py-3.5 px-4 text-slate-300">{{ $cote->plan->cours->nom_cours }}</td>
-                                <td class="py-3.5 px-4 text-slate-400">{{ $cote->plan->classe->nom_classe ?? 'N/A' }}</td>
-                                <td class="py-3.5 px-4 text-slate-400">{{ $cote->periode->nom_periode ?? '—' }}</td>
+                                <td class="py-3.5 px-4 text-slate-300">{{ $cote->plan?->cours?->nom_cours ?? 'Cours supprimé' }}</td>
+                                <td class="py-3.5 px-4 text-slate-400">{{ $cote->plan?->classe?->nom_classe ?? 'N/A' }}</td>
+                                <td class="py-3.5 px-4 text-slate-400">{{ $cote->periode?->nom_periode ?? 'Évaluations' }}</td>
                                 <td class="py-3.5 px-4 text-center">
                                     <span class="font-mono font-bold text-slate-100">{{ number_format($cote->total_points, 2) }}</span>
                                     <span class="text-slate-500 text-xs">/ {{ number_format($cote->max_total, 0) }}</span>
@@ -227,8 +236,8 @@
                                         <span class="text-slate-600 text-xs">Non saisie</span>
                                     @endif
                                 </td>
-                                <td class="py-3.5 px-4 text-slate-400">{{ $cote->encodeur->name ?? 'N/A' }}</td>
-                                <td class="py-3.5 px-4 text-slate-500 text-xs">{{ $cote->created_at->format('d/m/Y H:i') }}</td>
+                                <td class="py-3.5 px-4 text-slate-400">{{ $cote->encodeur?->name ?? 'N/A' }}</td>
+                                <td class="py-3.5 px-4 text-slate-500 text-xs">{{ $cote->created_at?->format('d/m/Y H:i') ?? 'N/A' }}</td>
                             </tr>
                         @empty
                             <tr>

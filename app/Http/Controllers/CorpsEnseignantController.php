@@ -25,13 +25,22 @@ class CorpsEnseignantController extends Controller
         $enseignants = Enseignant::where('ecole_id', $ecoleId)
             ->with('user')
             ->orderBy('nom')
-            ->get();
+            ->paginate(25)
+            ->withQueryString();
+
+        $plans = Plan::whereHas('cours', fn($q) => $q->where('ecole_id', $ecoleId))
+            ->whereIn('enseignant_id', $enseignants->pluck('user_id'))
+            ->get(['enseignant_id', 'classe_id']);
+
+        $plansParEnseignant = $plans->groupBy('enseignant_id');
+        $enseignants->each(function ($enseignant) use ($plansParEnseignant) {
+            $enseignant->plans_count = $plansParEnseignant->get($enseignant->user_id, collect())->count();
+        });
 
         $stats = (object) [
-            'total' => $enseignants->count(),
-            'avec_affectation' => Plan::whereHas('cours', fn($q) => $q->where('ecole_id', $ecoleId))
-                ->distinct('enseignant_id')
-                ->count('enseignant_id'),
+            'total' => $enseignants->total(),
+            'total_attributions' => $plans->count(),
+            'classes_couvertes' => $plans->pluck('classe_id')->unique()->count(),
         ];
 
         return view('directeur.enseignants.index', compact('enseignants', 'stats'));
@@ -156,13 +165,14 @@ class CorpsEnseignantController extends Controller
         $enseignants = Enseignant::where('ecole_id', $ecoleId)->with('user')->orderBy('nom')->get();
 
         $query = Cote::whereHas('plan.cours', fn($q) => $q->where('ecole_id', $ecoleId))
+            ->whereHas('inscription', fn($q) => $q->where('ecole_id', $ecoleId))
             ->with(['inscription.eleve', 'plan.cours', 'plan.classe', 'periode', 'encodeur']);
 
         if ($request->filled('enseignant_id')) {
             $userIds = Enseignant::where('ecole_id', $ecoleId)
                 ->where('id', $request->enseignant_id)
                 ->pluck('user_id');
-            $query->whereIn('encode_par', $userIds);
+            $query->whereHas('plan', fn($q) => $q->whereIn('enseignant_id', $userIds));
         }
 
         if ($request->filled('periode_id')) {
@@ -170,8 +180,22 @@ class CorpsEnseignantController extends Controller
         }
 
         if ($request->filled('classe_id')) {
-            $planIds = Plan::where('classe_id', $request->classe_id)->pluck('id');
+            $planIds = Plan::where('classe_id', $request->classe_id)
+                ->whereHas('cours', fn($q) => $q->where('ecole_id', $ecoleId))
+                ->pluck('id');
             $query->whereIn('plan_id', $planIds);
+        }
+
+        if ($request->filled('q')) {
+            $search = trim($request->string('q')->toString());
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('inscription.eleve', function ($eleveQuery) use ($search) {
+                    $eleveQuery->where('nom', 'like', "%{$search}%")
+                        ->orWhere('postnom', 'like', "%{$search}%")
+                        ->orWhere('prenom', 'like', "%{$search}%")
+                        ->orWhere('code_matricule', 'like', "%{$search}%");
+                })->orWhereHas('plan.cours', fn($coursQuery) => $coursQuery->where('nom_cours', 'like', "%{$search}%"));
+            });
         }
 
         // --- Statistiques globales (sur toutes les cotes filtrées, hors pagination) ---
@@ -181,6 +205,7 @@ class CorpsEnseignantController extends Controller
         $totalPoints = $toutesCotes->sum('total_points');
         $totalMax = $toutesCotes->sum('max_total');
         $moyenneGlobale = $totalMax > 0 ? round(($totalPoints / $totalMax) * 20, 2) : null;
+        $notesSaisies = $toutesCotes->filter(fn($c) => $c->moyenne !== null)->count();
 
         $reussis = $toutesCotes->filter(fn($c) => $c->statut === 'Réussi')->count();
         $echoues = $toutesCotes->filter(fn($c) => $c->statut === 'Échoué')->count();
@@ -196,6 +221,7 @@ class CorpsEnseignantController extends Controller
 
         $stats = (object) [
             'total_cotes' => $totalCotes,
+            'notes_saisies' => $notesSaisies,
             'moyenne_globale' => $moyenneGlobale,
             'taux_reussite' => $tauxReussite,
             'reussis' => $reussis,
