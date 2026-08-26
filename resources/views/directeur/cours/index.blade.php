@@ -69,7 +69,7 @@
                     </div>
                     <div>
                         <a href="{{ route('directeur.enseignants.attributions') }}" class="text-sm font-bold text-teal-400 hover:text-teal-300 transition block">
-                            Attributions →
+                            Attributions <i class="fa-solid fa-arrow-right ml-1"></i>
                         </a>
                         <p class="text-xs text-slate-400">Assigner aux profs</p>
                     </div>

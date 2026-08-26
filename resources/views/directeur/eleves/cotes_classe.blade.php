@@ -40,7 +40,7 @@
                     <p class="text-slate-400 mt-2 text-sm">
                         {{ $classe->nom_classe }} 
                         @if($classe->option)<span class="ml-2 text-xs bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full">{{ $classe->option->nomoption }}</span>@endif
-                        <span class="mx-2">•</span>
+                        <i class="fa-solid fa-circle text-[5px] mx-2 align-middle"></i>
                         {{ $inscriptions->count() }} élève(s)
                     </p>
                 </div>

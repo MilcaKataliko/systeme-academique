@@ -51,7 +51,7 @@
                         </h1>
                         <p class="text-slate-400 text-sm mt-1.5 max-w-2xl leading-relaxed">
                             @if($enseignant)
-                                Titulaire : <span class="text-purple-300 font-semibold">{{ $enseignant->grade }}</span> • Matricule : <span class="text-slate-300">{{ $enseignant->matricule }}</span>
+                                Titulaire : <span class="text-purple-300 font-semibold">{{ $enseignant->grade }}</span> <i class="fa-solid fa-circle text-[5px] mx-2 align-middle"></i> Matricule : <span class="text-slate-300">{{ $enseignant->matricule }}</span>
                             @else
                                 Gestion de vos cours, encodage des cotes d'évaluations et suivi de l'assiduité des élèves.
                             @endif

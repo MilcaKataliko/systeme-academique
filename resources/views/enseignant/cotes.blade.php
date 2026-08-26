@@ -26,9 +26,9 @@
                     <h1 class="text-2xl font-black tracking-tight text-white">{{ $cours->nom_cours }}</h1>
                     <p class="text-slate-400 text-sm mt-1">
                         <i class="fa-solid fa-graduation-cap text-teal-400 mr-1.5"></i>{{ $classe->nom_classe }}
-                        <span class="mx-2 text-slate-600">•</span>
+                        <i class="fa-solid fa-circle text-[5px] mx-2 align-middle text-slate-600"></i>
                         <i class="fa-solid fa-users text-cyan-400 mr-1"></i>{{ $inscriptions->count() }} élèves
-                        <span class="mx-2 text-slate-600">•</span>
+                        <i class="fa-solid fa-circle text-[5px] mx-2 align-middle text-slate-600"></i>
                         <i class="fa-solid fa-book text-indigo-400 mr-1"></i>Max : {{ $plan->maxima_periode }}/{{ $plan->maxima_examen }}
                     </p>
                 </div>

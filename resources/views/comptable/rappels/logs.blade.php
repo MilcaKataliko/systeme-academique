@@ -163,9 +163,9 @@
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     @if($log->statut === 'envoye')
-                                        <span class="bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded-full text-xs font-semibold">✓ Envoyé</span>
+                                        <span class="bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded-full text-xs font-semibold"><i class="fa-solid fa-check mr-1"></i>Envoyé</span>
                                     @elseif($log->statut === 'echoue')
-                                        <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-semibold" title="{{ $log->message_erreur }}">✗ Échoué</span>
+                                        <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-semibold" title="{{ $log->message_erreur }}"><i class="fa-solid fa-xmark mr-1"></i>Échoué</span>
                                     @else
                                         <span class="bg-amber-500/20 text-amber-400 px-2 py-1 rounded-full text-xs font-semibold"><i class="fa-solid fa-clock mr-1"></i>En attente</span>
                                     @endif

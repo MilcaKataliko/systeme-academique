@@ -112,7 +112,7 @@
                                 <p class="text-xs text-slate-400">
                                     <span class="text-emerald-400">{{ $fc->frais->intitule_frais }}</span>
                                     — {{ number_format($fc->montant_specifique, 2) }} {{ $fc->frais->devise }}
-                                    <span class="text-slate-600 mx-1">•</span>
+                                    <i class="fa-solid fa-circle text-[5px] mx-2 align-middle"></i>
                                     {{ $fc->annee_scolaire }}
                                 </p>
                             </div>

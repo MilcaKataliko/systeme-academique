@@ -52,7 +52,7 @@
                         <p class="text-slate-400 text-sm mt-1.5 max-w-2xl leading-relaxed">
                             Matricule : <span class="font-mono text-cyan-300 font-bold">{{ $eleve->code_matricule }}</span>
                             @if($inscriptions->first() && $inscriptions->first()->classe)
-                                • Classe : <span class="text-slate-200 font-semibold">{{ $inscriptions->first()->classe->nom_classe }}</span>
+                                <i class="fa-solid fa-circle text-[5px] mx-2 align-middle"></i> Classe : <span class="text-slate-200 font-semibold">{{ $inscriptions->first()->classe->nom_classe }}</span>
                             @endif
                         </p>
                     </div>

@@ -24,7 +24,7 @@
 </head>
 <body>
     <div class="toolbar no-print">
-        <a class="button secondary" href="{{ isset($inscription) ? route('directeur.eleves.show', $inscription->eleve_id) : (isset($inscriptions) && $inscriptions->count() ? route('directeur.eleves.show', $inscriptions->first()->eleve_id) : '#') }}">← Retour à l’élève</a>
+        <a class="button secondary" href="{{ isset($inscription) ? route('directeur.eleves.show', $inscription->eleve_id) : (isset($inscriptions) && $inscriptions->count() ? route('directeur.eleves.show', $inscriptions->first()->eleve_id) : '#') }}"><i class="fa-solid fa-arrow-left"></i> Retour à l’élève</a>
         <button class="button" onclick="printCurrent()">Imprimer le bulletin</button>
         <button class="button" onclick="window.print()">Imprimer tous les bulletins</button>
         <a class="button" href="{{ request()->fullUrlWithQuery(['format' => 'pdf']) }}">Télécharger PDF</a>

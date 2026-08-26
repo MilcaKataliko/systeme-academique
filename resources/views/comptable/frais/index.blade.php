@@ -53,7 +53,7 @@
 
                     <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/20 text-xs text-slate-300 leading-relaxed">
                         <strong class="text-blue-300 block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i>Exemple :</strong>
-                        Créez <span class="text-emerald-400 font-semibold">"Minerval 1ère Commerciale A"</span> → montant <span class="text-emerald-400 font-bold">50$</span> → classe ciblée → année active.
+                        Créez <span class="text-emerald-400 font-semibold">"Minerval 1ère Commerciale A"</span> <i class="fa-solid fa-arrow-right mx-1"></i> montant <span class="text-emerald-400 font-bold">50$</span> <i class="fa-solid fa-arrow-right mx-1"></i> classe ciblée <i class="fa-solid fa-arrow-right mx-1"></i> année active.
                     </div>
 
                     <form action="{{ route('comptable.frais.store') }}" method="POST" class="space-y-4">
@@ -117,9 +117,9 @@
                                     <p class="font-bold text-base text-white">{{ $f->intitule_frais }}</p>
                                     <div class="flex items-center gap-3 mt-1.5 text-xs text-slate-400">
                                         <span class="text-emerald-400 font-mono font-bold">{{ number_format($f->montant, 2) }} {{ $f->devise }}</span>
-                                        <span>•</span>
+                                        <i class="fa-solid fa-circle text-[5px] align-middle"></i>
                                         <span><i class="fa-solid fa-school text-teal-400 mr-1"></i>{{ $f->classe->nom_classe ?? 'Toutes classes' }}</span>
-                                        <span>•</span>
+                                        <i class="fa-solid fa-circle text-[5px] align-middle"></i>
                                         <span><i class="fa-solid fa-calendar text-slate-500 mr-1"></i>{{ $f->annee_scolaire }}</span>
                                     </div>
                                 </div>

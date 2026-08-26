@@ -86,9 +86,9 @@
                     
                     <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/20 text-xs text-slate-300 leading-relaxed">
                         <strong class="text-blue-300 block mb-1">Guide de saisie :</strong>
-                        • <strong>Nom</strong> : ex: "1ère Commerciale A", "7ème EB"<br>
-                        • <strong>Niveau</strong> : 7ème, 8ème, 1ère à 4ème humanités.<br>
-                        • <strong>Option</strong> : Optionnel pour 7e/8e, obligatoire dès la 1ère.
+                        <i class="fa-solid fa-circle text-[5px] mr-1 align-middle"></i> <strong>Nom</strong> : ex: "1ère Commerciale A", "7ème EB"<br>
+                        <i class="fa-solid fa-circle text-[5px] mr-1 align-middle"></i> <strong>Niveau</strong> : 7ème, 8ème, 1ère à 4ème humanités.<br>
+                        <i class="fa-solid fa-circle text-[5px] mr-1 align-middle"></i> <strong>Option</strong> : Optionnel pour 7e/8e, obligatoire dès la 1ère.
                     </div>
 
                     <form action="{{ route('directeur.classes.store') }}" method="POST" class="space-y-4">

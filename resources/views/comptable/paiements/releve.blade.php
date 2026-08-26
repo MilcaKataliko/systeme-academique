@@ -35,7 +35,7 @@
                     <h1 class="text-2xl font-black tracking-tight text-white">{{ $eleve->nom }} {{ $eleve->postnom }}</h1>
                     <p class="text-slate-400 text-sm mt-1">
                         <i class="fa-solid fa-id-card mr-2"></i>{{ $eleve->code_matricule }}
-                        <span class="mx-2">•</span>
+                        <i class="fa-solid fa-circle text-[5px] mx-2 align-middle"></i>
                         <i class="fa-solid fa-venus-mars mr-1"></i>{{ $eleve->genre == 'M' ? 'Masculin' : 'Féminin' }}
                     </p>
                 </div>

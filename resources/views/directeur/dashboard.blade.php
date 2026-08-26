@@ -303,7 +303,7 @@
                                         </div>
                                         <div>
                                             <p class="text-xs font-bold text-white">{{ $e['nom'] }} {{ $e['postnom'] }}</p>
-                                            <p class="text-[10px] text-slate-400">{{ $e['classe'] }} • {{ $e['option'] }}</p>
+                                            <p class="text-[10px] text-slate-400">{{ $e['classe'] }} <i class="fa-solid fa-circle text-[4px] mx-1 align-middle"></i> {{ $e['option'] }}</p>
                                         </div>
                                     </div>
                                     <span class="text-sm font-black text-emerald-400 px-2 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
@@ -333,7 +333,7 @@
                                         </div>
                                         <div>
                                             <p class="text-xs font-bold text-white">{{ $e['nom'] }} {{ $e['postnom'] }}</p>
-                                            <p class="text-[10px] text-slate-400">{{ $e['classe'] }} • {{ $e['option'] }}</p>
+                                            <p class="text-[10px] text-slate-400">{{ $e['classe'] }} <i class="fa-solid fa-circle text-[4px] mx-1 align-middle"></i> {{ $e['option'] }}</p>
                                         </div>
                                     </div>
                                     <span class="text-sm font-black text-rose-400 px-2 py-1 rounded-lg bg-rose-500/10 border border-rose-500/20">
@@ -450,7 +450,7 @@
                                     <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                                         <div>
                                             <p class="text-xs font-bold text-white">{{ $p->inscription->eleve->nom ?? 'Élève' }} {{ $p->inscription->eleve->postnom ?? '' }}</p>
-                                            <p class="text-[10px] text-slate-400">{{ $p->frais->intitule_frais ?? 'Frais' }} • {{ $p->date_paiement ? \Carbon\Carbon::parse($p->date_paiement)->format('d/m/Y') : '' }}</p>
+                                            <p class="text-[10px] text-slate-400">{{ $p->frais->intitule_frais ?? 'Frais' }} <i class="fa-solid fa-circle text-[4px] mx-1 align-middle"></i> {{ $p->date_paiement ? \Carbon\Carbon::parse($p->date_paiement)->format('d/m/Y') : '' }}</p>
                                         </div>
                                         <span class="text-xs font-black text-emerald-400 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
                                             +{{ number_format($p->montant_paye, 0, ',', ' ') }} $

@@ -70,10 +70,10 @@
                 <!-- Guide d'aide -->
                 <div class="mx-6 mt-4 p-3 bg-blue-900/30 border border-blue-500/20 rounded-xl text-xs text-slate-300 space-y-1.5">
                     <p class="text-blue-400 font-semibold uppercase tracking-wider text-[10px]"><i class="fa-solid fa-lightbulb mr-1"></i>Comment attribuer un cours ?</p>
-                    <p><span class="text-white font-medium">Enseignant</span> → Sélectionnez le professeur concerné</p>
-                    <p><span class="text-white font-medium">Classe</span> → La classe qui recevra le cours</p>
-                    <p><span class="text-white font-medium">Matière</span> → Le cours à attribuer (ex: Mathématiques, Français...)</p>
-                    <p><span class="text-white font-medium">Notes max</span> → La note maximale pour les périodes et l'examen (généralement 20)</p>
+                    <p><span class="text-white font-medium">Enseignant</span> <i class="fa-solid fa-arrow-right mx-1"></i> Sélectionnez le professeur concerné</p>
+                    <p><span class="text-white font-medium">Classe</span> <i class="fa-solid fa-arrow-right mx-1"></i> La classe qui recevra le cours</p>
+                    <p><span class="text-white font-medium">Matière</span> <i class="fa-solid fa-arrow-right mx-1"></i> Le cours à attribuer (ex: Mathématiques, Français...)</p>
+                    <p><span class="text-white font-medium">Notes max</span> <i class="fa-solid fa-arrow-right mx-1"></i> La note maximale pour les périodes et l'examen (généralement 20)</p>
                 </div>
 
                 <form action="{{ route('directeur.enseignants.attributions.store') }}" method="POST" class="p-6 space-y-5">
@@ -206,9 +206,9 @@
                                 </p>
                                 <p class="text-xs text-slate-400 mt-1 flex items-center space-x-2">
                                     <span><i class="fa-solid fa-school text-slate-500 mr-1"></i>{{ $plan->classe->nom_classe ?? 'N/A' }}</span>
-                                    <span class="text-slate-600">•</span>
+                                    <i class="fa-solid fa-circle text-[5px] align-middle"></i>
                                     <span><i class="fa-solid fa-calendar text-slate-500 mr-1"></i>{{ $plan->annee_scolaire }}</span>
-                                    <span class="text-slate-600">•</span>
+                                    <i class="fa-solid fa-circle text-[5px] align-middle"></i>
                                     <span><i class="fa-solid fa-star text-slate-500 mr-1"></i>{{ $plan->maxima_periode }}/{{ $plan->maxima_examen }}</span>
                                 </p>
                             </div>

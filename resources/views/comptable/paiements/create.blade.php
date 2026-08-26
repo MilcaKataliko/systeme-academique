@@ -80,7 +80,7 @@
                     @csrf
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Inscription (niveau • classe • année)</label>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Inscription (niveau, classe, année)</label>
                         <select name="inscription_id" required
                                 class="w-full bg-slate-900/60 border border-slate-700 text-slate-100 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 transition">
                             <option value="">Sélectionnez l'inscription...</option>
