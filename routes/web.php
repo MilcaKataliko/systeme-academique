@@ -31,6 +31,9 @@ Route::post('/enregistrer-ecole', [CustomAuthController::class, 'registerSchool'
 
 // --- ROUTES SÉCURISÉES (Uniquement pour les utilisateurs connectés) ---
 Route::middleware(['auth'])->group(function () {
+    Route::get('/profil', [CustomAuthController::class, 'profile'])->name('profile');
+    Route::put('/profil', [CustomAuthController::class, 'profileUpdate'])->name('profile.update');
+
     // Création de comptes par le Directeur
     Route::get('/directeur/creer-compte', [CustomAuthController::class, 'showRegister'])->name('register.show');
     Route::post('/directeur/creer-compte', [CustomAuthController::class, 'register'])->name('register.store');

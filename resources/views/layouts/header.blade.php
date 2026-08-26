@@ -1,7 +1,7 @@
 @php
     $user = Auth::user();
     $role = $user->role ?? 'directeur';
-    $schoolName = $user->ecole->nom ?? 'Système Académique';
+    $schoolName = $user->ecole->nom_ecole ?? 'Système Académique';
 @endphp
 
 <!-- Topbar Header -->

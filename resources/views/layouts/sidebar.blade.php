@@ -216,6 +216,9 @@
                     </p>
                 </div>
             </div>
+            <a href="{{ route('profile') }}" class="mt-2 flex items-center justify-center gap-2 rounded-xl border border-slate-800 px-3 py-2 text-xs font-semibold {{ request()->routeIs('profile') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }} transition">
+                <i class="fa-solid fa-user-pen"></i> Mon profil
+            </a>
             
             <form method="POST" action="{{ route('logout') }}" class="shrink-0">
                 @csrf

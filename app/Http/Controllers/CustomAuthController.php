@@ -21,9 +21,57 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CustomAuthController extends Controller
 {
+    public function profile()
+    {
+        $user = Auth::user()->load('ecole');
+        $enseignant = $user->role === 'enseignant'
+            ? Enseignant::where('user_id', $user->id)->where('ecole_id', $user->ecole_id)->first()
+            : null;
+        $eleve = $user->role === 'eleve'
+            ? Eleve::where('user_id', $user->id)->where('ecole_id', $user->ecole_id)->with('inscriptions.classe')->first()
+            : null;
+
+        return view('profile', compact('user', 'enseignant', 'eleve'));
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'current_password' => ['nullable', 'required_with:password', 'current_password:auth'],
+            'password' => ['nullable', 'confirmed', 'string', 'min:8'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('photo')) {
+            $disk = \Illuminate\Support\Facades\Storage::disk('public');
+            if ($user->photo && $disk->exists('photos/' . $user->photo)) {
+                $disk->delete('photos/' . $user->photo);
+            }
+            $filename = 'user_' . $user->id . '_' . time() . '.' . $request->file('photo')->extension();
+            $request->file('photo')->storeAs('photos', $filename, 'public');
+            $user->photo = $filename;
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Votre profil a été mis à jour avec succès.');
+    }
+
     /**
      * Afficher le formulaire de connexion
      */
