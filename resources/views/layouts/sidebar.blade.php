@@ -197,8 +197,12 @@
     <div class="p-4 border-t border-slate-800/80 bg-slate-950/60">
         <div class="flex items-center justify-between gap-2 p-2 rounded-xl bg-slate-900/80 border border-slate-800">
             <div class="flex items-center space-x-2.5 min-w-0">
-                <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-bold text-xs uppercase border border-slate-700">
-                    {{ strtoupper(substr($user->name ?? 'U', 0, 2)) }}
+                <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-bold text-xs uppercase border border-slate-700 overflow-hidden">
+                    @if($user->photo)
+                        <img src="{{ Storage::disk('public')->url('photos/' . $user->photo) }}?v={{ $user->updated_at?->timestamp }}" alt="" class="h-full w-full object-cover">
+                    @else
+                        {{ strtoupper(substr($user->name ?? 'U', 0, 2)) }}
+                    @endif
                 </div>
                 <div class="min-w-0">
                     <p class="text-xs font-semibold text-white truncate">{{ $user->name ?? 'Utilisateur' }}</p>

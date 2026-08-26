@@ -17,7 +17,7 @@
                 <div class="relative z-10 flex flex-col sm:flex-row sm:items-center gap-5">
                     <div class="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-blue-400/30 bg-blue-600 flex items-center justify-center text-2xl font-black text-white shadow-lg">
                         @if($user->photo)
-                            <img src="{{ asset('storage/photos/' . $user->photo) }}" alt="Photo de {{ $user->name }}" class="h-full w-full object-cover">
+                            <img src="{{ Storage::disk('public')->url('photos/' . $user->photo) }}?v={{ $user->updated_at?->timestamp }}" alt="Photo de {{ $user->name }}" class="h-full w-full object-cover">
                         @else
                             {{ strtoupper(substr($user->name ?? 'U', 0, 2)) }}
                         @endif

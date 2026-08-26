@@ -37,7 +37,14 @@
                     default => 'text-slate-400'
                 }
             }}"></i>
-            <a href="{{ route('profile') }}" class="font-semibold text-slate-200 capitalize hover:text-blue-400 transition">{{ $user->name }}</a>
+            <a href="{{ route('profile') }}" class="flex items-center gap-2 font-semibold text-slate-200 capitalize hover:text-blue-400 transition">
+                @if($user->photo)
+                    <img src="{{ Storage::disk('public')->url('photos/' . $user->photo) }}?v={{ $user->updated_at?->timestamp }}" alt="" class="h-7 w-7 rounded-full border border-slate-700 object-cover">
+                @else
+                    <i class="fa-solid fa-circle-user text-lg"></i>
+                @endif
+                <span>{{ $user->name }}</span>
+            </a>
             <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
                 {{ $role }}
             </span>
