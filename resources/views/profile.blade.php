@@ -19,7 +19,7 @@
                         @if($user->photo)
                             <img src="{{ asset('storage/photos/' . $user->photo) }}" alt="Photo de {{ $user->name }}" class="h-full w-full object-cover">
                         @else
-                            {{ strtoupper(substr($user->name, 0, 2)) }}
+                            {{ strtoupper(substr($user->name ?? 'U', 0, 2)) }}
                         @endif
                     </div>
                     <div>

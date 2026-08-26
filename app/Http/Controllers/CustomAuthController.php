@@ -27,7 +27,9 @@ class CustomAuthController extends Controller
 {
     public function profile()
     {
-        $user = Auth::user()->load('ecole');
+        $user = Auth::user();
+        abort_unless($user, 401);
+        $user->load('ecole');
         $enseignant = $user->role === 'enseignant'
             ? Enseignant::where('user_id', $user->id)->where('ecole_id', $user->ecole_id)->first()
             : null;
