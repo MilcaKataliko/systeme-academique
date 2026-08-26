@@ -149,7 +149,7 @@
                     <span>Tableau de bord</span>
                 </a>
 
-                <a href="{{ route('enseignant.profil') }}" 
+                <a href="{{ route('profile') }}"
                    class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ $currentRoute === 'enseignant.profil' ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
                     <i class="fa-solid fa-id-card w-5 text-center text-base text-indigo-400"></i>
                     <span>Mon Profil Enseignant</span>
@@ -183,7 +183,7 @@
                     <span>Mes Frais & Paiements</span>
                 </a>
 
-                <a href="{{ route('eleve.profil') }}" 
+                <a href="{{ route('profile') }}"
                    class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ $currentRoute === 'eleve.profil' ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
                     <i class="fa-solid fa-user-circle w-5 text-center text-base text-teal-400"></i>
                     <span>Mon Profil</span>

@@ -108,7 +108,7 @@ Route::get('/enseignant/classe/{classeId}/eleves/{planId?}', [EnseignantControll
 // Gestion des présences hebdomadaires (Enseignant)
     Route::get('/enseignant/classe/{classeId}/presence/{planId?}/{date?}', [EnseignantController::class, 'presenceForm'])->name('enseignant.presence.form');
     Route::post('/enseignant/classe/{classeId}/presence', [EnseignantController::class, 'enregistrerPresence'])->name('enseignant.presence.store');
-    Route::get('/enseignant/profil', [EnseignantController::class, 'profil'])->name('enseignant.profil');
+    Route::get('/enseignant/profil', [CustomAuthController::class, 'profile'])->name('enseignant.profil');
     Route::get('/enseignant/statistiques', [EnseignantController::class, 'statistiques'])->name('enseignant.statistiques');
 
     // --- Espace Comptable (Gestion des frais et paiements) ---
@@ -144,5 +144,5 @@ Route::get('/enseignant/classe/{classeId}/eleves/{planId?}', [EnseignantControll
     Route::get('/eleve/notes', [\App\Http\Controllers\EleveController::class, 'notes'])->name('eleve.notes');
     Route::get('/eleve/bulletins', [\App\Http\Controllers\EleveController::class, 'bulletins'])->name('eleve.bulletins');
     Route::get('/eleve/finances', [\App\Http\Controllers\EleveController::class, 'finances'])->name('eleve.finances');
-    Route::get('/eleve/profil', [\App\Http\Controllers\EleveController::class, 'profil'])->name('eleve.profil');
+    Route::get('/eleve/profil', [CustomAuthController::class, 'profile'])->name('eleve.profil');
 });

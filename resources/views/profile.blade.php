@@ -96,7 +96,7 @@
                     @if($eleve)
                         <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><p class="text-xs font-bold uppercase text-slate-500">Matricule élève</p><p class="mt-1 font-mono font-semibold text-cyan-300">{{ $eleve->code_matricule }}</p></div>
                         <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><p class="text-xs font-bold uppercase text-slate-500">Classe actuelle</p><p class="mt-1 font-semibold text-white">{{ $eleve->inscriptions->first()?->classe?->nom_classe ?? 'Non assignée' }}</p></div>
-                        <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><p class="text-xs font-bold uppercase text-slate-500">Téléphone</p><p class="mt-1 font-semibold text-white">{{ $eleve->telephone ?: 'Non renseigné' }}</p></div>
+                            <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><p class="text-xs font-bold uppercase text-slate-500">Identifiant du compte</p><p class="mt-1 font-mono font-semibold text-white">#{{ $user->id }}</p></div>
                     @endif
                 </div>
             </section>

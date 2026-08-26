@@ -1,7 +1,7 @@
 @php
     $user = Auth::user();
     $role = $user->role ?? 'directeur';
-    $schoolName = $user->ecole->nom_ecole ?? 'Système Académique';
+    $schoolName = $user->ecole?->nom_ecole ?? 'Système Académique';
 @endphp
 
 <!-- Topbar Header -->
@@ -37,7 +37,7 @@
                     default => 'text-slate-400'
                 }
             }}"></i>
-            <span class="font-semibold text-slate-200 capitalize">{{ $user->name }}</span>
+            <a href="{{ route('profile') }}" class="font-semibold text-slate-200 capitalize hover:text-blue-400 transition">{{ $user->name }}</a>
             <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
                 {{ $role }}
             </span>
