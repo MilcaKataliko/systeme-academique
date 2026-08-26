@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Annee;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AnneeController extends Controller
 {
     // 1. Afficher la liste des années scolaires
     public function index()
     {
-        $annees = Annee::all();
+        $ecoleId = session('ecole_id');
+        $annees = Annee::where('ecole_id', $ecoleId)
+            ->orderByDesc('anneescolaire')
+            ->get();
         return view('annees.index', compact('annees'));
     }
 
@@ -24,7 +28,10 @@ class AnneeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'anneescolaire' => 'required|string|max:255',
+            'anneescolaire' => [
+                'required', 'regex:/^\d{4}-\d{4}$/',
+                Rule::unique('annees', 'anneescolaire')->where('ecole_id', session('ecole_id')),
+            ],
         ]);
 
         Annee::create([
@@ -33,5 +40,38 @@ class AnneeController extends Controller
         ]);
 
         return redirect()->route('annees.index')->with('success', 'Année scolaire ajoutée avec succès !');
+    }
+
+    public function edit($id)
+    {
+        $annee = Annee::where('ecole_id', session('ecole_id'))->findOrFail($id);
+
+        return view('annees.edit', compact('annee'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $annee = Annee::where('ecole_id', session('ecole_id'))->findOrFail($id);
+
+        $request->validate([
+            'anneescolaire' => [
+                'required', 'regex:/^\d{4}-\d{4}$/',
+                Rule::unique('annees', 'anneescolaire')
+                    ->where('ecole_id', session('ecole_id'))
+                    ->ignore($annee->idAnnee, 'idAnnee'),
+            ],
+        ]);
+
+        $annee->update(['anneescolaire' => $request->anneescolaire]);
+
+        return redirect()->route('annees.index')->with('success', 'Année scolaire modifiée avec succès !');
+    }
+
+    public function destroy($id)
+    {
+        $annee = Annee::where('ecole_id', session('ecole_id'))->findOrFail($id);
+        $annee->delete();
+
+        return redirect()->route('annees.index')->with('success', 'Année scolaire supprimée avec succès !');
     }
 }

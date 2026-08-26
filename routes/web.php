@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/directeur/annees', [AnneeController::class, 'index'])->name('annees.index');
     Route::get('/directeur/annees/creer', [AnneeController::class, 'create'])->name('annees.create');
     Route::post('/directeur/annees', [AnneeController::class, 'store'])->name('annees.store');
+    Route::get('/directeur/annees/{id}/modifier', [AnneeController::class, 'edit'])->name('annees.edit');
+    Route::put('/directeur/annees/{id}', [AnneeController::class, 'update'])->name('annees.update');
+    Route::delete('/directeur/annees/{id}', [AnneeController::class, 'destroy'])->name('annees.destroy');
 
     // Gestion des classes
     Route::get('/directeur/classes', [ClasseController::class, 'index'])->name('directeur.classes.index');

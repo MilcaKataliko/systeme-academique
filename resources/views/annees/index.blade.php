@@ -41,6 +41,12 @@
                     <i class="fa-solid fa-circle-check"></i><span>{{ session('success') }}</span>
                 </div>
             @endif
+            @if($errors->any())
+                <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm">
+                    <p class="font-bold mb-1">Impossible d'enregistrer l'année.</p>
+                    <ul class="list-disc list-inside">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+                </div>
+            @endif
 
             <!-- Tableau des Années Scolaires -->
             <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl overflow-hidden shadow-lg">
@@ -59,6 +65,7 @@
                                 <th class="p-4">Année Scolaire</th>
                                 <th class="p-4">Date de création</th>
                                 <th class="p-4 text-center">Statut</th>
+                                <th class="p-4 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300">
@@ -72,10 +79,23 @@
                                             Active
                                         </span>
                                     </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <a href="{{ route('annees.edit', $annee->idAnnee) }}" class="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition" title="Modifier" aria-label="Modifier">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <form action="{{ route('annees.destroy', $annee->idAnnee) }}" method="POST" onsubmit="return confirm('Supprimer cette année scolaire ?')">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="p-2 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition" title="Supprimer" aria-label="Supprimer">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="p-12 text-center text-slate-500 text-xs">
+                                    <td colspan="5" class="p-12 text-center text-slate-500 text-xs">
                                         <i class="fa-solid fa-calendar-xmark text-3xl mb-2 block"></i>
                                         Aucune année scolaire configurée.
                                     </td>
