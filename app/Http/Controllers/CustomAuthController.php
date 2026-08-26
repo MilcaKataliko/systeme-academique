@@ -100,8 +100,8 @@ class CustomAuthController extends Controller
             }
             $repartitionOptions[] = [
                 'id' => $opt->id,
-                'nom' => $opt->nom_option,
-                'code' => $opt->code_option,
+                'nom' => $opt->nomoption,
+                'code' => $opt->sigle,
                 'total' => $optElevesCount,
                 'filles' => $optFilles,
                 'garcons' => $optGarcons,

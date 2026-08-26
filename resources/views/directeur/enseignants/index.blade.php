@@ -120,7 +120,7 @@
                                         </span>
                                     </td>
                                     <td class="p-4 text-center">
-                                        <a href="{{ route('directeur.enseignants.attributions', ['enseignantId' => $ens->user_id]) }}" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition inline-flex items-center space-x-1">
+                                        <a href="{{ route('directeur.enseignants.attributions', ['enseignantId' => $ens->id]) }}" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition inline-flex items-center space-x-1">
                                             <i class="fa-solid fa-arrow-right-arrow-left"></i><span>Gérer cours</span>
                                         </a>
                                     </td>

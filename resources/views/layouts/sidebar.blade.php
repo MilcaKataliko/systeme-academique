@@ -2,7 +2,7 @@
     $user = Auth::user();
     $role = $user->role ?? 'directeur';
     $currentRoute = Route::currentRouteName();
-    $schoolName = $user->ecole->nom ?? 'Système Académique';
+    $schoolName = $user->ecole->nom_ecole ?? 'Système Académique';
 @endphp
 
 <!-- Sidebar Latérale Gauche -->
