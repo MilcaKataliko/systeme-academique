@@ -61,18 +61,6 @@ class CustomAuthController extends Controller
         $inscriptionsAujourdhui = Inscription::where('ecole_id', $ecoleId)->whereDate('created_at', Carbon::today())->count();
         $inscriptionsCeMois = Inscription::where('ecole_id', $ecoleId)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
 
-        // Évolution des inscriptions par mois (12 derniers mois)
-        $inscriptionsParMoisLabels = [];
-        $inscriptionsParMoisData = [];
-        for ($i = 11; $i >= 0; $i--) {
-            $dt = Carbon::now()->subMonths($i);
-            $inscriptionsParMoisLabels[] = $dt->locale('fr')->isoFormat('MMM YYYY');
-            $inscriptionsParMoisData[] = Inscription::where('ecole_id', $ecoleId)
-                ->whereYear('created_at', $dt->year)
-                ->whereMonth('created_at', $dt->month)
-                ->count();
-        }
-
         // Évolution des inscriptions par année scolaire
         $inscriptionsAnnees = Inscription::where('ecole_id', $ecoleId)
             ->select('annee_scolaire', DB::raw('count(*) as total'))
@@ -350,7 +338,6 @@ class CustomAuthController extends Controller
             'stats',
             'totalEleves', 'totalGarcons', 'totalFilles', 'pctGarcons', 'pctFilles',
             'inscriptionsAujourdhui', 'inscriptionsCeMois',
-            'inscriptionsParMoisLabels', 'inscriptionsParMoisData',
             'inscriptionsAnneesLabels', 'inscriptionsAnneesData',
             'repartitionOptions', 'repartitionClasses',
             'classesLabels', 'classesEffectifs', 'classesFilles', 'classesGarcons',

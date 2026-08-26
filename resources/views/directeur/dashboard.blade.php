@@ -129,12 +129,12 @@
                     <div class="lg:col-span-2 bg-slate-950/80 border border-slate-800/90 p-5 sm:p-6 rounded-2xl shadow-lg">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-sm text-slate-200 flex items-center gap-2">
-                                <i class="fa-solid fa-chart-line text-blue-400"></i> Évolution des inscriptions par mois
+                                <i class="fa-solid fa-chart-column text-blue-400"></i> Évolution annuelle des inscriptions
                             </h3>
-                            <span class="text-[11px] text-slate-500">12 derniers mois</span>
+                            <span class="text-[11px] text-slate-500">Par année scolaire</span>
                         </div>
                         <div class="h-64 sm:h-72 w-full">
-                            <canvas id="chartInscriptionsMois"></canvas>
+                            <canvas id="chartInscriptionsAnnees"></canvas>
                         </div>
                     </div>
 
@@ -510,23 +510,20 @@
             Chart.defaults.color = '#94a3b8';
             Chart.defaults.font.family = 'system-ui, sans-serif';
 
-            // 1. Graphique Évolution des Inscriptions par Mois
-            const ctxInsc = document.getElementById('chartInscriptionsMois');
+              // 1. Graphique Évolution annuelle des inscriptions
+              const ctxInsc = document.getElementById('chartInscriptionsAnnees');
             if (ctxInsc) {
                 new Chart(ctxInsc, {
-                    type: 'line',
+                      type: 'bar',
                     data: {
-                        labels: {!! json_encode($inscriptionsParMoisLabels) !!},
+                          labels: {!! json_encode($inscriptionsAnneesLabels) !!},
                         datasets: [{
                             label: 'Inscriptions',
-                            data: {!! json_encode($inscriptionsParMoisData) !!},
+                              data: {!! json_encode($inscriptionsAnneesData) !!},
                             borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.15)',
-                            fill: true,
-                            tension: 0.35,
+                              backgroundColor: 'rgba(59, 130, 246, 0.65)',
                             borderWidth: 3,
-                            pointBackgroundColor: '#3b82f6',
-                            pointRadius: 4,
+                              borderRadius: 8,
                         }]
                     },
                     options: {
